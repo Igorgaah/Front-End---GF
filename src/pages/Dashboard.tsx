@@ -45,7 +45,7 @@ export const Dashboard = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent mb-4">
-            Investment Portfolio Dashboard
+            IBank - Investimentos
           </h1>
           <p className="text-xl text-muted-foreground">
             Gerencie seus investimentos de forma inteligente e organizada
