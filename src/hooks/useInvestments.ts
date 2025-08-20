@@ -1,104 +1,100 @@
 import { useState, useEffect } from 'react';
 import { Investment, InvestmentFormData } from '@/types/investment';
 import { toast } from '@/hooks/use-toast';
-
-const STORAGE_KEY = 'investments';
+import { investmentApi } from '@/services/investmentApi';
 
 export const useInvestments = () => {
   const [investments, setInvestments] = useState<Investment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load investments from localStorage
+  // Load investments from API
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setInvestments(JSON.parse(stored));
+    const loadInvestments = async () => {
+      try {
+        const data = await investmentApi.getAll();
+        setInvestments(data);
+      } catch (error) {
+        console.error('Error loading investments:', error);
+        toast({
+          title: "Erro",
+          description: "Erro ao carregar investimentos da API.",
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading investments:', error);
-      toast({
-        title: "Erro",
-        description: "Erro ao carregar investimentos salvos.",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Save investments to localStorage
-  const saveToStorage = (newInvestments: Investment[]) => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newInvestments));
-    } catch (error) {
-      console.error('Error saving investments:', error);
-      toast({
-        title: "Erro", 
-        description: "Erro ao salvar investimentos.",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const addInvestment = (data: InvestmentFormData) => {
-    const newInvestment: Investment = {
-      id: crypto.randomUUID(),
-      name: data.name,
-      type: data.type,
-      amount: parseFloat(data.amount),
-      date: data.date,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
     };
 
-    const newInvestments = [...investments, newInvestment];
-    setInvestments(newInvestments);
-    saveToStorage(newInvestments);
+    loadInvestments();
+  }, []);
 
-    toast({
-      title: "Sucesso!",
-      description: "Investimento cadastrado com sucesso.",
-      variant: "default"
-    });
+  const addInvestment = async (data: InvestmentFormData) => {
+    try {
+      const newInvestment = await investmentApi.create(data);
+      setInvestments(prev => [...prev, newInvestment]);
 
-    return newInvestment;
+      toast({
+        title: "Sucesso!",
+        description: "Investimento cadastrado com sucesso.",
+        variant: "default"
+      });
+
+      return newInvestment;
+    } catch (error) {
+      console.error('Error adding investment:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao cadastrar investimento.",
+        variant: "destructive"
+      });
+      throw error;
+    }
   };
 
-  const updateInvestment = (id: string, data: InvestmentFormData) => {
-    const newInvestments = investments.map(investment =>
-      investment.id === id
-        ? {
-            ...investment,
-            name: data.name,
-            type: data.type,
-            amount: parseFloat(data.amount),
-            date: data.date,
-            updatedAt: new Date().toISOString()
-          }
-        : investment
-    );
+  const updateInvestment = async (id: string, data: InvestmentFormData) => {
+    try {
+      const updatedInvestment = await investmentApi.update(id, data);
+      setInvestments(prev => 
+        prev.map(investment =>
+          investment.id === id ? updatedInvestment : investment
+        )
+      );
 
-    setInvestments(newInvestments);
-    saveToStorage(newInvestments);
-
-    toast({
-      title: "Sucesso!",
-      description: "Investimento atualizado com sucesso.",
-      variant: "default"
-    });
+      toast({
+        title: "Sucesso!",
+        description: "Investimento atualizado com sucesso.",
+        variant: "default"
+      });
+    } catch (error) {
+      console.error('Error updating investment:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao atualizar investimento.",
+        variant: "destructive"
+      });
+      throw error;
+    }
   };
 
-  const deleteInvestment = (id: string) => {
-    const newInvestments = investments.filter(investment => investment.id !== id);
-    setInvestments(newInvestments);
-    saveToStorage(newInvestments);
+  const deleteInvestment = async (id: string) => {
+    try {
+      await investmentApi.delete(id);
+      setInvestments(prev => prev.filter(investment => investment.id !== id));
 
-    toast({
-      title: "Sucesso!",
-      description: "Investimento excluído com sucesso.",
-      variant: "destructive"
-    });
+      toast({
+        title: "Sucesso!",
+        description: "Investimento excluído com sucesso.",
+        variant: "destructive"
+      });
+    } catch (error) {
+      console.error('Error deleting investment:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao excluir investimento.",
+        variant: "destructive"
+      });
+      throw error;
+    }
   };
 
   const getInvestmentsByType = () => {
