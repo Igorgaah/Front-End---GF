@@ -1,73 +1,109 @@
-# Welcome to your Lovable project
+# 📊 Front-End - Sistema de Investimentos
 
-## Project info
+Este projeto é um **front-end em React + TypeScript** para gerenciamento de investimentos.
+O sistema permite cadastrar, listar, editar e excluir investimentos, além de exibir gráficos com a distribuição por tipo.
 
-**URL**: https://lovable.dev/projects/47c4b87a-e119-491c-970d-2a81ca8e0173
+---
 
-## How can I edit this code?
+## 🚀 Funcionalidades
 
-There are several ways of editing your application.
+### 🔹 **Tela de Cadastro**
 
-**Use Lovable**
+* Formulário para adicionar novos investimentos.
+* Validação de campos obrigatórios.
+* Feedback visual em caso de erro ou sucesso.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/47c4b87a-e119-491c-970d-2a81ca8e0173) and start prompting.
+### 🔹 **Tela de Listagem**
 
-Changes made via Lovable will be committed automatically to this repo.
+* Tabela com todos os investimentos cadastrados.
+* Ações: **Editar** e **Excluir** diretamente na listagem.
 
-**Use your preferred IDE**
+### 🔹 **Dashboard**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+* Exibição de **gráfico de distribuição** dos tipos de investimento.
+* Estatísticas resumidas para melhor visualização.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 🔹 **Feedback & Validações**
 
-Follow these steps:
+* Sistema de **toasts** para mensagens de sucesso/erro.
+* Hooks para controle de estado e responsividade.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🛠️ Tecnologias Utilizadas
 
-# Step 3: Install the necessary dependencies.
-npm i
+* **React.js + TypeScript**
+* **Vite** (ambiente de build rápido)
+* **TailwindCSS** (estilização moderna)
+* **Chart.js / react-chartjs-2** (gráficos)
+* **ShadCN/UI** (componentes UI reutilizáveis)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+---
+
+## 📂 Estrutura do Projeto
+
+```
+src/
+ ├── components/        # Componentes reutilizáveis
+ │   ├── ui/            # Componentes de UI (botões, inputs, etc)
+ │   ├── InvestmentChart.tsx
+ │   ├── InvestmentForm.tsx
+ │   └── InvestmentTable.tsx
+ │
+ ├── hooks/             # Hooks customizados
+ │   ├── use-mobile.tsx
+ │   ├── use-toast.ts
+ │   └── useInvestments.ts
+ │
+ ├── lib/               # Funções utilitárias
+ │   └── utils.ts
+ │
+ ├── pages/             # Páginas principais
+ │   ├── Dashboard.tsx
+ │   ├── Index.tsx
+ │   └── NotFound.tsx
+ │
+ ├── types/             # Tipagens do TypeScript
+ │   └── investment.ts
+ │
+ ├── App.tsx            # Componente raiz
+ ├── main.tsx           # Ponto de entrada
+ ├── index.css          # Estilos globais
+ └── vite-env.d.ts      # Tipagem do Vite
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## ▶️ Como Executar
 
-**Use GitHub Codespaces**
+1. Instalar dependências:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+   ```bash
+   npm install
+   ```
 
-## What technologies are used for this project?
+2. Rodar a aplicação:
 
-This project is built with:
+   ```bash
+   npm run dev
+   ```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+3. Acessar no navegador:
 
-## How can I deploy this project?
+   ```
+   http://localhost:5173
+   ```
 
-Simply open [Lovable](https://lovable.dev/projects/47c4b87a-e119-491c-970d-2a81ca8e0173) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## 📌 Próximos Passos
 
-Yes, you can!
+* [ ] Melhorar responsividade em mobile.
+* [ ] Criar autenticação para login de usuários.
+* [ ] Adicionar filtros e busca na tabela de investimentos.
+* [ ] Criar novos tipos de gráficos (linha, barras).
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+📌 Projeto desenvolvido em **React + TypeScript + Tailwind** com foco em boas práticas de organização.
+
